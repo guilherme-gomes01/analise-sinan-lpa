@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Agravos - SINAN</title>
+
+    <!-- Custom styles for this template-->
+    <link href="static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="spinner-overlay" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+        <h1>Análise de Dados de Saúde Pública (SINAN)</h1>
+        <h2>Visualização de Agravos Notificados</h2>
+
+        <div class="upload-section">
+            <h3>1. Fazer Upload do Arquivo CSV</h3>
+            <form action="/upload_file" method="post" enctype="multipart/form-data" onsubmit="showSpinner()">
+                <input type="file" name="file" accept=".csv" required>
+                <button type="submit">Upload e Processar</button>
+            </form>
+            {% if error %}
+                <p class="message error-message">{{ error }}</p>
+            {% endif %}
+            {% if success_message %}
+                <p class="message success-message">{{ success_message }}</p>
+            {% endif %}
+        </div>
+
+        {% if file_uploaded %}
+            <div class="analysis-section">
+                <h3>2. Selecionar Agravo para Análise</h3>
+                <form action="/analisar" method="post" onsubmit="showSpinner()">
+                    <label for="agravo">Selecione o Agravo:</label>
+                    <select name="agravo" id="agravo">
+                        {% if agravos %}
+                            {% for agravo in agravos %}
+                                <option value="{{ agravo }}" {% if selected_agravo == agravo %}selected{% endif %}>
+                                    {{ agravo }}
+                                </option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="">Nenhum agravo disponível</option>
+                        {% endif %}
+                    </select>
+                    <button type="submit">Analisar Agravo</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="analysis-section" style="background-color: #f0f0f0; color: #555;">
+                <h3>2. Selecionar Agravo para Análise</h3>
+                <p>Por favor, faça o upload de um arquivo CSV acima para habilitar a análise.</p>
+            </div>
+        {% endif %}
+
+        {% if selected_agravo and show_charts %} {# Adicionada condição show_charts #}
+            <p class="selected-agravo">Exibindo resultados para: <strong>{{ selected_agravo }}</strong></p>
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>Distribuição por Sexo</h3>
+                    <img src="data:image/png;base64,{{ plot_sexo }}" alt="Gráfico de Distribuição por Sexo">
+                </div>
+                <div class="chart-box">
+                    <h3>Distribuição por Faixa Etária</h3>
+                    <img src="data:image/png;base64,{{ plot_faixa_etaria }}" alt="Gráfico de Distribuição por Faixa Etária">
+                </div>
+                <div class="chart-box">
+                    <h3>Ranking por Município (Top 10)</h3>
+                    <img src="data:image/png;base64,{{ plot_ranking_municipio }}" alt="Gráfico de Ranking por Município">
+                </div>
+                <div class="chart-box">
+                    <h3>Evolução de Casos por Ano</h3>
+                    <img src="data:image/png;base64,{{ plot_evolucao_anual }}" alt="Gráfico de Evolução de Casos por Ano">
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function showSpinner() {
+            document.getElementById('loadingSpinner').style.display = 'flex';
+        }
+
+        // Esconder o spinner quando a página carregar (após a resposta do servidor)
+        window.onload = function() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
