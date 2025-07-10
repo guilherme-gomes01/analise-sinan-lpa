@@ -41,39 +41,25 @@ Siga os passos abaixo para configurar e executar a aplicação em seu ambiente l
 Certifique-se de ter o Python 3.x e o pip instalados.
 
 2. Clonar o Repositório
-Bash
 
-git clone https://github.com/guilherme-gomes01/analise-sinan-lpa.git
-cd analise-sinan-lpa
-3. Configurar Ambiente Virtual e Instalar Dependências
-É altamente recomendado o uso de um ambiente virtual para o projeto.
+3. Navegar para o diretório e instalar as dependências:
 
-Bash
-
-python -m venv venv
-Ativar o ambiente virtual:
-
-Windows: .\venv\Scripts\activate
-
-macOS/Linux: source venv/bin/activate
-
-Instalar as dependências:
-
-Bash
-
+```bash
 pip install Flask pandas matplotlib numpy
+```
 
 ## ✔️ Executando a Aplicação
-Certifique-se de que o ambiente virtual está ativado.
-
 Inicie o servidor Flask a partir da raiz do projeto:
-
-Bash
-
+```bash
 python app.py
+```
+
 Abra seu navegador web e acesse: http://127.0.0.1:5000/
 
 ## 👌 Instruções de Uso
+
+Vá ao site: https://office365prodam-my.sharepoint.com/:f:/g/personal/sass_fvs_am_gov_br/Ev52wq74EutIkt47OJAFa9IBGe9S9LcP8LA4WGFjd8yGjw e baixe o arquivo csv.
+
 Upload do Arquivo CSV: Na página inicial, localize a seção de upload e selecione o arquivo CSV de dados do SINAN (com a estrutura de colunas esperada).
 
 Clique em "Upload e Processar". O sistema irá carregar, limpar os dados e extrair a lista de agravos disponíveis.
@@ -83,10 +69,11 @@ Analisar o Agravo: Selecione o agravo desejado na lista suspensa (ex: "Tuberculo
 Os gráficos de análise serão exibidos dinamicamente na página.
 
 ## 📦 Estrutura do Projeto
+```bash
 analise-sinan-lpa/
 ├── app.py          # Código principal da aplicação Flask, lógica de dados e geração de gráficos
 └── templates/
     └── index.html  # Interface de usuário (HTML, CSS, JS para o spinner)
-
+```
 ## ✨ Contribuição
 Contribuições são bem-vindas. Por favor, sinta-se à vontade para abrir issues ou pull requests.
